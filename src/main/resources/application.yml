@@ -2,10 +2,20 @@ spring:
   application:
     name: cloud-native-btp-adapter
 
+# Configurație Cloud-Native (Vault & Environment Ready)
+sap:
+  btp:
+    # Folosim placeholder-ul ${...} pentru a prelua datele din Kubernetes/Kyma
+    destination: ${BTP_DESTINATION_NAME:default-btp-service}
+    auth-url: ${BTP_AUTH_URL:https://default.auth.sap.com}
+    client-id: ${BTP_CLIENT_ID:placeholder}
+    client-secret: ${BTP_CLIENT_SECRET:placeholder}
+
 management:
   endpoints:
     web:
       exposure:
+        # Expunem doar ce este necesar pentru monitorizarea externă (NOC)
         include: [health, info, prometheus]
   endpoint:
     health:
@@ -14,3 +24,15 @@ management:
     export:
       prometheus:
         enabled: true
+    # Adăugăm tag-uri pentru a identifica rapid instanța în Grafana
+    tags:
+      application: ${spring.application.name}
+      environment: ${APP_ENV:production}
+
+# Setări de logare pentru Incident Response (SOC)
+logging:
+  level:
+    root: INFO
+    com.adrianroman.btp: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
