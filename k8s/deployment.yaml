@@ -1,8 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: btp-adapter-service
-  namespace: sap-btp-kyma
+  name: btp-adapter
 spec:
   replicas: 2
   selector:
@@ -12,18 +11,17 @@ spec:
     metadata:
       labels:
         app: btp-adapter
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/actuator/prometheus"
+        prometheus.io/port: "8080"
     spec:
       containers:
-      - name: adapter-engine
-        image: adrianroman/btp-adapter:latest
+      - name: adapter
+        image: adrianroman1/btp-adapter:latest
         ports:
         - containerPort: 8080
         resources:
           limits:
             cpu: "500m"
             memory: "512Mi"
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 8080
-          initialDelaySeconds: 10
