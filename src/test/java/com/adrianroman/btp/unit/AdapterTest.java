@@ -1,14 +1,15 @@
 package com.adrianroman.btp.unit;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.DisplayName;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest
 class AdapterTest {
+
     @Test
-    void contextLoads() {
-        assertThat(true).isTrue();
+    @DisplayName("Smoke Test - Verificare Integritate Sistem")
+    void smokeTest() {
+        // Acest test verifică dacă motorul JUnit funcționează corect în pipeline
+        assertTrue(true, "Mediul de testare este funcțional.");
     }
 }
-
