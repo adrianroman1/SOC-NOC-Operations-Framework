@@ -1,18 +1,15 @@
-FROM python:3.11-slim
-
+# Stage 1: Build
+FROM maven:3.9-eclipse-temurin-17 AS build
 WORKDIR /app
-
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
 COPY . .
+RUN mvn clean package -DskipTests
 
-# Securitate 2026: Rulăm ca utilizator non-root
-RUN useradd -m adrian_ops
-USER adrian_ops
-
-CMD ["python", "monitoring/health_monitor.py"]
-
-
-
-
+# Stage 2: Runtime
+FROM eclipse-temurin:17-jre-alpine
+WORKDIR /app
+COPY --from=build /app/target/*.jar adapter.jar
+# Securitate: Rulăm ca utilizator non-root
+RUN addgroup -S spring && adduser -S spring -G spring
+USER spring:spring
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "adapter.jar"]
