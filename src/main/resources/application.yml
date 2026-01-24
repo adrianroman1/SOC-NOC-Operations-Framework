@@ -1,12 +1,16 @@
+spring:
+  application:
+    name: cloud-native-btp-adapter
+
 management:
   endpoints:
     web:
       exposure:
-        include: "health,info,prometheus" # Expune endpoint-ul de monitorizare
+        include: [health, info, prometheus]
   endpoint:
     health:
       show-details: always
   metrics:
-    tags:
-      application: ${spring.application.name}
-      
+    export:
+      prometheus:
+        enabled: true
