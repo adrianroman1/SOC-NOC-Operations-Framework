@@ -1,0 +1,13 @@
+global:
+  scrape_interval: 15s # Cât de des verifică starea adaptorului
+
+scrape_configs:
+  - job_name: 'btp-adapter-metrics'
+    metrics_path: '/actuator/prometheus' # Endpoint-ul generat de Spring Actuator
+    static_configs:
+      - targets: ['localhost:8080']
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'sap-btp-production'
+
