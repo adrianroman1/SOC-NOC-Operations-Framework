@@ -21,7 +21,6 @@ jobs:
       - name: Install Python Dependencies
         run: |
           pip install requests pytest kubernetes
-          # Adăugăm dependințe dacă scripturile tale le cer
 
       - name: Validate Kubernetes Manifests (Kyma Ready)
         run: |
@@ -47,4 +46,4 @@ jobs:
           cache: maven
 
       - name: Build and Test Java Adapter
-        run: mvn -B package --file pom.xml
+        run: mvn clean package -DskipTests=false --file pom.xml
