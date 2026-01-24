@@ -1,8 +1,8 @@
 # Cloud-Native BTP Adapter & Operations 🚀
 
-[![Status: Production-Ready](https://img.shields.io)](https://github.com)
-[![Platform: SAP BTP](https://img.shields.io)](https://www.sap.com)
-[![Operations: Cloud Resilience](https://img.shields.io)](https://azure.microsoft.com)
+[![Status: Production-Ready](https://img.shields.io/badge/Status-Production--Ready-brightgreen)](#)
+[![Platform: SAP BTP](https://img.shields.io/badge/Platform-SAP%20BTP-blue)](https://www.sap.com/products/technology-platform.html)
+[![Operations: Cloud Resilience](https://img.shields.io/badge/Operations-Cloud%20Resilience-orange)](https://azure.microsoft.com)
 
 ## 🚀 Overview
 Acest repository reprezintă un framework avansat de tip **Cloud-Native Adapter**, proiectat special pentru ecosistemul **SAP Business Technology Platform (BTP)** și rularea pe **Kyma (Kubernetes)**. Proiectul îmbină logica de integrare enterprise cu expertiza de **Operations (SOC/NOC)** pentru a asigura reziliența sistemelor hibride în 2026.
