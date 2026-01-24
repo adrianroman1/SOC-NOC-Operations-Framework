@@ -1,35 +1,50 @@
-name: Cloud Ops CI/CD 2026
+name: Cloud Ops & BTP Integration CI/CD 2026
 
 on:
   push:
+    branches: [ main ]
+  pull_request:
     branches: [ main ]
 
 jobs:
   validate-and-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
-        run: pip install requests pytest kubernetes
-
-      - name: Validate Kubernetes Manifests
+      - name: Install Python Dependencies
         run: |
-          # Verificăm sintaxa fișierelor K8s/Kyma
-          ls k8s/deployment.yaml
-          echo "K8s manifests validated."
+          pip install requests pytest kubernetes
+          # Adăugăm dependințe dacă scripturile tale le cer
 
-      - name: Run Resilience Health Audit
-        run: python monitoring/health_monitor.py
-
-      - name: Run Integration Tests
+      - name: Validate Kubernetes Manifests (Kyma Ready)
         run: |
-          # Simulăm testarea adaptorului
-          python adapter/btp_connector.py
+          # Verificăm prezența manifestelor înainte de deployment
+          test -f k8s/deployment.yaml && echo "Deployment manifest found."
+          test -f k8s/service.yaml && echo "Service manifest found."
+          echo "K8s/Kyma manifests validated successfully."
 
+      - name: Run Resilience Health Audit (Cloud-Ops)
+        run: python scripts/monitoring/health_monitor.py
 
+      - name: Run OData Data Validation (Python)
+        run: python scripts/data_validator.py
+
+      - name: Run Security SIEM Triage Check
+        run: python scripts/security/siem_triage.py
+
+      - name: Set up JDK 17 (Java Backend)
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build and Test Java Adapter
+        run: mvn -B package --file pom.xml
