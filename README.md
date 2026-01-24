@@ -1,4 +1,4 @@
-# Cloud-Native BTP Adapter & Operations Framework 🚀
+# Cloud-Native BTP Adapter & Operations 🚀
 
 [![Status: Production-Ready](https://img.shields.io)](https://github.com)
 [![Platform: SAP BTP](https://img.shields.io)](https://www.sap.com)
